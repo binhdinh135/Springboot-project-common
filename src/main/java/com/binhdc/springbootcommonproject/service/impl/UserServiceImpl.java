@@ -1,6 +1,7 @@
 package com.binhdc.springbootcommonproject.service.impl;
 
 //import com.binhdc.springbootcommonproject.constant.PredefinedRole;
+import com.binhdc.springbootcommonproject.constant.PredefinedRole;
 import com.binhdc.springbootcommonproject.dto.request.UserCreationRequest;
 import com.binhdc.springbootcommonproject.dto.request.UserUpdateRequest;
 import com.binhdc.springbootcommonproject.dto.response.RoleResponse;
@@ -45,19 +46,19 @@ public class UserServiceImpl implements UserService {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        HashSet<String> roles = new HashSet<>();
-//        roles.add(Role.USER.name());
-//        user.setRoles(roles);
+//        HashSet<String> roles = new HashSet<>();
+////        roles.add(Role.USER.name());
+////        user.setRoles(roles);
 //
-//        HashSet<Role> roles = new HashSet<>();
-//        roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
+        HashSet<Role> roles = new HashSet<>();
+        roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
 //
-//        user.setRoles(roles);
+        user.setRoles(roles);
 
         try {
             user = userRepository.save(user);
         } catch (DataIntegrityViolationException exception) {
-//            throw new AppException(ErrorCode.USER_EXISTED);
+            throw new AppException(ErrorCode.USER_EXISTED);
         }
 
         return UserResponse.builder()
@@ -65,7 +66,7 @@ public class UserServiceImpl implements UserService {
                 .username(user.getUsername())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
-//                .roles(roles)
+                .roles(user.getRoles().stream().map(roleMapper::toRoleResponse).collect(Collectors.toSet()))
                 .dob(user.getDob())
                 .build();
 //        return userMapper.toUserResponse(user);
