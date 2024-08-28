@@ -72,6 +72,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
+    public String authenticateOtherService(AuthenticationRequest request) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        var user = userRepository
+                .findByUsername(request.getUsername())
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
+
+        if (!authenticated) throw new AppException(ErrorCode.UNAUTHENTICATED);
+
+        return generateToken(user);
+    }
+
+    @Override
     public AuthenticationResponse refreshToken(RefreshRequest request) throws ParseException, JOSEException {
         var signedJWT = verifyToken(request.getToken(), true);
 

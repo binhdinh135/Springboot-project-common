@@ -18,4 +18,6 @@ public interface AuthenticationService {
     void logout(LogoutRequest request);
 
     IntrospectResponse introspect(IntrospectRequest request);
+
+    String authenticateOtherService(AuthenticationRequest request);
 }
