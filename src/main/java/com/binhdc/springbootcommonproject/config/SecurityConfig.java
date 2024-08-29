@@ -33,7 +33,8 @@ import java.util.Objects;
 @EnableMethodSecurity
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS = {
-            "/users", "/auth/token", "/auth/introspect", "/auth/logout", "/auth/refresh", "/auth/token-other-service"
+            "/users", "/auth/token", "/auth/introspect", "/auth/logout"
+            , "/auth/refresh", "/auth/token-other-service"
     };
 
     //    @Value("${jwt.signerKey}")
