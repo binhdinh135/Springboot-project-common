@@ -1,9 +1,6 @@
 package com.binhdc.springbootcommonproject.service;
 
-import com.binhdc.springbootcommonproject.dto.request.AuthenticationRequest;
-import com.binhdc.springbootcommonproject.dto.request.IntrospectRequest;
-import com.binhdc.springbootcommonproject.dto.request.LogoutRequest;
-import com.binhdc.springbootcommonproject.dto.request.RefreshRequest;
+import com.binhdc.springbootcommonproject.dto.request.*;
 import com.binhdc.springbootcommonproject.dto.response.AuthenticationResponse;
 import com.binhdc.springbootcommonproject.dto.response.IntrospectResponse;
 import com.nimbusds.jose.JOSEException;
@@ -19,5 +16,5 @@ public interface AuthenticationService {
 
     IntrospectResponse introspect(IntrospectRequest request);
 
-    String authenticateOtherService(AuthenticationRequest request);
+    String authenticateOtherService(SecretTokenRequest request);
 }

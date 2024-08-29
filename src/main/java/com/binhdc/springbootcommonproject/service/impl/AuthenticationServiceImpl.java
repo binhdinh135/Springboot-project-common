@@ -1,9 +1,6 @@
 package com.binhdc.springbootcommonproject.service.impl;
 
-import com.binhdc.springbootcommonproject.dto.request.AuthenticationRequest;
-import com.binhdc.springbootcommonproject.dto.request.IntrospectRequest;
-import com.binhdc.springbootcommonproject.dto.request.LogoutRequest;
-import com.binhdc.springbootcommonproject.dto.request.RefreshRequest;
+import com.binhdc.springbootcommonproject.dto.request.*;
 import com.binhdc.springbootcommonproject.dto.response.AuthenticationResponse;
 import com.binhdc.springbootcommonproject.dto.response.IntrospectResponse;
 import com.binhdc.springbootcommonproject.entity.InvalidatedToken;
@@ -11,6 +8,7 @@ import com.binhdc.springbootcommonproject.entity.User;
 import com.binhdc.springbootcommonproject.exception.AppException;
 import com.binhdc.springbootcommonproject.exception.ErrorCode;
 import com.binhdc.springbootcommonproject.repository.InvalidatedTokenRepository;
+import com.binhdc.springbootcommonproject.repository.SecretTokenRepository;
 import com.binhdc.springbootcommonproject.repository.UserRepository;
 import com.binhdc.springbootcommonproject.service.AuthenticationService;
 import com.nimbusds.jose.*;
@@ -42,6 +40,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     UserRepository userRepository;
     InvalidatedTokenRepository invalidatedTokenRepository;
+    SecretTokenRepository secretTokenRepository;
 
     @NonFinal
 //    @Value("${jwt.signerKey}")
@@ -72,16 +71,25 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public String authenticateOtherService(AuthenticationRequest request) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+    public String authenticateOtherService(SecretTokenRequest request) {
+//        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+//        var user = userRepository
+//                .findByUsername(request.getUsername())
+//                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+//
+//        boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
+        // tim secret token
+        var secretToken = secretTokenRepository
+                .findByUserId(request.getUserId()
+                , request.getClientId(), request.getClientSecret())
+                .orElseThrow(() -> new AppException(ErrorCode.CLIENT_NOT_EXISTED));
+
+        // Tu userId cua secret token tim ra User tren he thong
         var user = userRepository
-                .findByUsername(request.getUsername())
+                .findByUsername(secretToken.getUserId())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
-
-        if (!authenticated) throw new AppException(ErrorCode.UNAUTHENTICATED);
-
+        // Tu User trong he thong -> tao token va tra ve cho ben goi
         return generateToken(user);
     }
 
