@@ -1,10 +1,7 @@
 package com.binhdc.springbootcommonproject.controller;
 
-import com.binhdc.springbootcommonproject.dto.request.IntrospectRequest;
-import com.binhdc.springbootcommonproject.dto.request.LogoutRequest;
-import com.binhdc.springbootcommonproject.dto.request.RefreshRequest;
+import com.binhdc.springbootcommonproject.dto.request.*;
 import com.binhdc.springbootcommonproject.dto.response.ApiResponse;
-import com.binhdc.springbootcommonproject.dto.request.AuthenticationRequest;
 import com.binhdc.springbootcommonproject.dto.response.AuthenticationResponse;
 import com.binhdc.springbootcommonproject.dto.response.IntrospectResponse;
 import com.binhdc.springbootcommonproject.service.AuthenticationService;
@@ -27,7 +24,7 @@ public class AuthenticationController {
     final private AuthenticationService authenticationService;
 
     @PostMapping("/token-other-service")
-    String authenticateOtherService(@RequestBody AuthenticationRequest request) {
+    String authenticateOtherService(@RequestBody SecretTokenRequest request) {
         return authenticationService.authenticateOtherService(request);
     }
 
