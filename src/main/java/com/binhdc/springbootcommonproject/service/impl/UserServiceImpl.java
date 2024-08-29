@@ -101,6 +101,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserResponse> getUsersFromOtherService() {
+        return List.of();
+    }
+
+    @Override
     public UserResponse getUser(Long userId) {
         UserResponse result = null;
         Optional<User> userOp = userRepository.findById(userId);

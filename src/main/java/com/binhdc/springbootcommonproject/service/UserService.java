@@ -18,4 +18,6 @@ public interface UserService {
     void deleteUser(String userId);
 
     UserResponse updateUser(Long userId, UserUpdateRequest request);
+
+    List<UserResponse> getUsersFromOtherService();
 }

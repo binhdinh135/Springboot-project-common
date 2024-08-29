@@ -62,6 +62,12 @@ public class UserController {
                 .result(userService.getUsers())
                 .build();
     }
+    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasAuthority('APPROVE_POST')")
+    @GetMapping("/get-all-user-other-service")
+    List<UserResponse> getUsersFromOtherService() {
+        return userService.getUsers();
+    }
 
     /* PostAuthorize: đây là annotaion dùng để phân quyền cho hàm này.
     Spring security sẽ check sau khi vào hàm này thực hiện,
