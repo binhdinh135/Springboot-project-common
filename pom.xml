@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.binhdc</groupId>
-	<artifactId>springbootcommonproject</artifactId>
+	<artifactId>IdentityService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>springbootcommonproject</name>
-	<description>springbootcommonproject for Spring Boot</description>
+	<name>identity-service</name>
+	<description>IdentityService for Spring Boot</description>
 	<url/>
 	<licenses>
 		<license/>
